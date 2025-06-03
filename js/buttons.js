@@ -17,6 +17,9 @@ function randomNumber() {
 
 let imageGrid = document.querySelectorAll('.image');
 
+// where the images will be saved to
+let imageDisplay = document.querySelector('#image-display');
+
 // function that loops through and assigns a random image 
 
 function randomImage() {
@@ -70,9 +73,11 @@ let imagesum = '';
 for (let i of imageGrid) {
     i.addEventListener('click', (e)=> {
         let choice = e.target.src;
-        e.target.style.border = `red solid 1px`;
+        let randomImageNumber = randomNumber();
+        e.target.src = `https://picsum.photos/id/${randomImageNumber}/200`;
         imagesum += `<img src=${choice}>`;
-        console.log(imagesum);
+        imageDisplay.innerHTML += `<img src="${choice}">`;
+        console.log(choice);
     })
 }
 
@@ -97,6 +102,7 @@ completeSelect.addEventListener('click', ()=>{
         sameEmail.style.display = `flex`;
         linkedEmail.innerHTML += `<p>These images are linked to ${email}</p>`;
         overallChoice.innerHTML += imagesum;
+        imageDisplay.innerHTML = ``;
     }
     
 })

@@ -66,3 +66,14 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
+
+// grid showing the user what they picked 
+
+#overall-choice {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    & img {
+        width: 150px;
+        padding-bottom: 5px;
+    }
+}
