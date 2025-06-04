@@ -26,16 +26,17 @@ function randomImage() {
     for (let i of imageGrid) {
         let img = i.querySelector('img'); 
         if (img) {
-            let linkNumber = randomNumber();
-            let link = `https://picsum.photos/id/${linkNumber}/200`;
-            img.src = link;  
+            let link = `https://picsum.photos/id/${randomNumber()}/200`;
+            img.src = link;
+            img.onerror = function () {
+                this.onerror = null;
+                this.src = `https://picsum.photos/id/${randomNumber()}/200`;
+            };
+
+           
         }
     }
 }
-
-// running once for page load
-
-randomImage();
 
 // refresh button 
 
@@ -61,7 +62,7 @@ let completeSelect = document.querySelector('#submit-choice');
 let sameEmail = document.querySelector('#same-email')
 
 // will display the entered email above the selection
-let linkedEmail = document.querySelector('#linked-email');
+let linkedEmail = document.querySelector('#first-linked-email');
 
 
 
@@ -74,17 +75,36 @@ for (let i of imageGrid) {
     i.addEventListener('click', (e)=> {
         let choice = e.target.src;
         let randomImageNumber = randomNumber();
+        
+        e.target.onerror = () => {
+            e.target.src = `https://picsum.photos/id/${randomNumber()}/200`
+        }
+
         e.target.src = `https://picsum.photos/id/${randomImageNumber}/200`;
+
         imagesum += `<img src=${choice}>`;
         imageDisplay.innerHTML += `<img src="${choice}">`;
         console.log(choice);
     })
 }
 
+function emailCheck (email) {
+    TrueEmail = false;
+    if (email.value.trim() === '') {
+        enteredEmail.className = 'noAddress';
+        enteredEmail.placeholder = `Required Email Address*`
+    } else if (!isValidEmail(email.value)) {
+        enteredEmail.className = `noAddress`;
+        enteredEmail.value = ``;
+        enteredEmail.placeholder = `Invalid Email Address`;
+    } else {
+        TrueEmail = true;
+    }
+}
 
 
 // the submit part for the email
-completeSelect.addEventListener('click', ()=>{
+function MadeChoice () {
     if (enteredEmail.value.trim() === '') {
         enteredEmail.className = 'noAddress';
         enteredEmail.placeholder = `Required Email Address*`;
@@ -99,12 +119,31 @@ completeSelect.addEventListener('click', ()=>{
         enteredEmail.value = '';
         console.log(email);
         completeSelect.innerHTML = `Different Email?`;
+        completeSelect.className = `DifferentEmail`
+        differentEmail = document.querySelector('.DifferentEmail');
+        
+        differentEmail.addEventListener('click', ()=>{
+        email = enteredEmail.value 
+        console.log(email);
+    })
+
         sameEmail.style.display = `flex`;
-        linkedEmail.innerHTML += `<p>These images are linked to ${email}</p>`;
+        linkedEmail.innerHTML += `<p>These images are linked to ${email}</p><button id="send-email">Send</button>`;
         overallChoice.innerHTML += imagesum;
         imageDisplay.innerHTML = ``;
     }
     
+}
+
+
+completeSelect.addEventListener('click', ()=> {
+    MadeChoice();
 })
 
+// inputting a different email
 
+
+
+// running once for page load
+
+randomImage();
