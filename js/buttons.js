@@ -88,21 +88,6 @@ for (let i of imageGrid) {
     })
 }
 
-function emailCheck (email) {
-    TrueEmail = false;
-    if (email.value.trim() === '') {
-        enteredEmail.className = 'noAddress';
-        enteredEmail.placeholder = `Required Email Address*`
-    } else if (!isValidEmail(email.value)) {
-        enteredEmail.className = `noAddress`;
-        enteredEmail.value = ``;
-        enteredEmail.placeholder = `Invalid Email Address`;
-    } else {
-        TrueEmail = true;
-    }
-}
-
-
 // the submit part for the email
 function MadeChoice () {
     if (enteredEmail.value.trim() === '') {
