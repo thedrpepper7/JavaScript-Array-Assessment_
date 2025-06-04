@@ -1,0 +1,1 @@
+picture choice doesnt reset upon clikcing the button 

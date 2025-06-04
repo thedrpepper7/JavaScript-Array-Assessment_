@@ -12,14 +12,6 @@ function randomNumber() {
     return(number);
 }
 
-
-// grid containing the img tags
-
-let imageGrid = document.querySelectorAll('.image');
-
-// where the images will be saved to
-let imageDisplay = document.querySelector('#image-display');
-
 // function that loops through and assigns a random image 
 
 function randomImage() {
@@ -37,6 +29,22 @@ function randomImage() {
         }
     }
 }
+
+
+// grid containing the img tags
+
+let imageGrid = document.querySelectorAll('.image');
+
+// where the images will be saved to
+let imageDisplay = document.querySelector('#image-display');
+
+// choice to remove the image from the selection
+
+imageDisplay.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'IMG') {
+        e.target.remove();
+    }
+})
 
 // refresh button 
 
@@ -64,6 +72,11 @@ let sameEmail = document.querySelector('#same-email')
 // will display the entered email above the selection
 let linkedEmail = document.querySelector('#first-linked-email');
 
+// where the changed email selection will go 
+const changedEmail = document.querySelector('#second-linked-email');
+
+// where the second selection will go
+const changedEmailContent = document.querySelector('#changed-email-overall');
 
 
 // the image selection
@@ -88,44 +101,70 @@ for (let i of imageGrid) {
     })
 }
 
-// the submit part for the email
-function MadeChoice () {
-    if (enteredEmail.value.trim() === '') {
-        enteredEmail.className = 'noAddress';
-        enteredEmail.placeholder = `Required Email Address*`;
-    } else if (!isValidEmail(enteredEmail.value)){
-        enteredEmail.className = 'noAddress';
-        enteredEmail.value = ``;
-        enteredEmail.placeholder = `Invalid Email Address*`
+// function checks the email and returns true when valid
+
+function emailChecker(GivenEmail) {
+    let value = GivenEmail.value.trim();
+    if (value === '' || (!isValidEmail(GivenEmail.value))) {
+        GivenEmail.className = 'noAddress';
+        GivenEmail.placeholder = `Required Email Address*`;
+        return false;
     } else {
-        email = enteredEmail.value;
-        enteredEmail.classList.remove('noAddress')
+        email = GivenEmail.value;
+        enteredEmail.classList.remove('noAddress');
         enteredEmail.placeholder = `Email Address`;
-        enteredEmail.value = '';
-        console.log(email);
-        completeSelect.innerHTML = `Different Email?`;
-        completeSelect.className = `DifferentEmail`
-        differentEmail = document.querySelector('.DifferentEmail');
+        enteredEmail.value = ``;
+        return true;
+    }
+}
+
+// waiting on the complete selection button to check the email
+
+completeSelect.addEventListener('click', ()=> {
+    const isValid = emailChecker(enteredEmail);
+    if (!isValid) {
+        enteredEmail.className = `noAddress`;
+        enteredEmail.value = ``;
+        enteredEmail.placeholder = `Invalid Email Address*`;
+    } else {
+        completeSelect.style.display = `none`;
+        const diffEmailBtn = document.createElement('button');
+        diffEmailBtn.textContent = `Use Different Email?`;
+        diffEmailBtn.id = `Different-Email`;
         
-        differentEmail.addEventListener('click', ()=>{
-        email = enteredEmail.value 
-        console.log(email);
-    })
+        completeSelect.parentNode.appendChild(diffEmailBtn);
 
         sameEmail.style.display = `flex`;
         linkedEmail.innerHTML += `<p>These images are linked to ${email}</p><button id="send-email">Send</button>`;
-        overallChoice.innerHTML += imagesum;
+        overallChoice.innerHTML = imagesum;
         imageDisplay.innerHTML = ``;
+        imagesum = ``;
+
+        sameEmail.addEventListener('click', ()=>{
+            overallChoice.innerHTML += imagesum;
+            imageDisplay = ``;
+        })
+        diffEmailBtn.addEventListener('click', ()=> {
+            const isValid = emailChecker(enteredEmail);
+            if (!isValid) {
+                enteredEmail.className = `noAddress`;
+                enteredEmail.value = ``;
+                enteredEmail.placeholder = `Invalid Email Address`;
+            } else {
+                changedEmail.innerHTML += `<p>These images are linked to ${email}</p><button id="send-email">Send</button>`
+                changedEmailContent.innerHTML += imagesum;
+                imageDisplay.innerHTML = ``;
+                imagesum = ``;
+                diffEmailBtn.style.display = `none`;
+                sameEmail.style.display = `none`;
+
+            }
+        })
     }
-    
-}
-
-
-completeSelect.addEventListener('click', ()=> {
-    MadeChoice();
 })
 
-// inputting a different email
+
+
 
 
 

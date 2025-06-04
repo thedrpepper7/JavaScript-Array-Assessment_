@@ -69,7 +69,7 @@
 
 // grid showing the user what they picked 
 
-#overall-choice {
+#overall-choice, #changed-email-overall {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr ;
     & img {
