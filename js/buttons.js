@@ -38,14 +38,6 @@ let imageGrid = document.querySelectorAll('.image');
 // where the images will be saved to
 let imageDisplay = document.querySelector('#image-display');
 
-// choice to remove the image from the selection
-
-imageDisplay.addEventListener('click', (e)=>{
-    if (e.target.tagName === 'IMG') {
-        e.target.remove();
-    }
-})
-
 // refresh button 
 
 let refresh = document.querySelector('#refresh');
@@ -82,7 +74,8 @@ const changedEmailContent = document.querySelector('#changed-email-overall');
 // the image selection
 
 let overallChoice = document.querySelector('#overall-choice');
-let imagesum = '';
+let selectedImages = [];
+
 
 for (let i of imageGrid) {
     i.addEventListener('click', (e)=> {
@@ -95,8 +88,9 @@ for (let i of imageGrid) {
 
         e.target.src = `https://picsum.photos/id/${randomImageNumber}/200`;
 
-        imagesum += `<img src=${choice}>`;
+        selectedImages.push(choice);
         imageDisplay.innerHTML += `<img src="${choice}">`;
+
         console.log(choice);
     })
 }
@@ -136,35 +130,71 @@ completeSelect.addEventListener('click', ()=> {
 
         sameEmail.style.display = `flex`;
         linkedEmail.innerHTML += `<p>These images are linked to ${email}</p><button id="send-email">Send</button>`;
-        overallChoice.innerHTML = imagesum;
+        selectedImages.forEach(src => {
+            overallChoice.innerHTML += `<img src="${src}">`;
+        });
         imageDisplay.innerHTML = ``;
-        imagesum = ``;
+        selectedImages = [];
 
-        sameEmail.addEventListener('click', ()=>{
-            overallChoice.innerHTML += imagesum;
-            imageDisplay = ``;
-        })
+
+        sameEmail.addEventListener('click', () => {
+            if (selectedImages.length === 0) {
+                console.log("ccd");
+                return;
+            }
+
+            selectedImages.forEach(src => {
+                overallChoice.innerHTML += `<img src="${src}">`;
+            });
+            imageDisplay.innerHTML = ``;
+            selectedImages = [];
+        });
+
         diffEmailBtn.addEventListener('click', ()=> {
             const isValid = emailChecker(enteredEmail);
             if (!isValid) {
                 enteredEmail.className = `noAddress`;
                 enteredEmail.value = ``;
                 enteredEmail.placeholder = `Invalid Email Address`;
+            } else if (selectedImages.length === 0) {
+                alert("Please select at least ONE image");
+                return;
             } else {
-                changedEmail.innerHTML += `<p>These images are linked to ${email}</p><button id="send-email">Send</button>`
-                changedEmailContent.innerHTML += imagesum;
+                changedEmail.innerHTML += `<p>These images are linked to ${email}</p><button id="send-email">Send</button>`;
+                selectedImages.forEach(src => {
+                changedEmailContent.innerHTML += `<img src="${src}">`;
+                });
                 imageDisplay.innerHTML = ``;
-                imagesum = ``;
+                selectedImages = [];
                 diffEmailBtn.style.display = `none`;
                 sameEmail.style.display = `none`;
-
-            }
+                enteredEmail.style.display = `none`;}
+             
+            
         })
     }
 })
 
 
+// choice to remove the image from the selection
 
+overallChoice.addEventListener('click', (e) =>{
+    if (e.target.tagName === `IMG`) {
+        e.target.remove();
+        if (overallChoice.innerHTML === ``) {
+            linkedEmail.innerHTML = ``;
+        }
+    }
+})
+
+changedEmailContent.addEventListener('click', (e)=>{
+    if (e.target.tagName === 'IMG') {
+        e.target.remove();
+        if (changedEmailContent.innerHTML === ``){
+            changedEmail.innerHTML = ``;
+        }
+    }
+})
 
 
 
