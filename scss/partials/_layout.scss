@@ -15,3 +15,31 @@ body {
 }
 
 
+@media (max-width: 556px) {
+    #imageholders {
+        grid-template-columns: 1fr 1fr;
+    }
+    .refresh-div {
+        position: relative;
+        align-items: flex-end;
+        & button {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+    }
+
+    #image-display {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (max-width: 360px){
+    #imageholders {
+        grid-template-columns: 1fr;
+    }
+
+    #image-display {
+        grid-template-columns: 1fr 1fr;
+    }
+}
