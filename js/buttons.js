@@ -30,6 +30,25 @@ function randomImage() {
     }
 }
 
+// function im going to run every time the image is selected so it can be deleted / has a manipulatable class name
+
+function addEvent() {
+    let allAddedImg = document.querySelectorAll('.selected_image');
+    allAddedImg.forEach(img => {
+        img.addEventListener('click', (e) => {
+            const srcToRemove = e.target.src;
+
+            // Remove the image from before
+            e.target.remove();
+
+            // Remove the src from the section below
+            selectedImages = selectedImages.filter(src => src !== srcToRemove);
+
+            console.log('Updated selectedImages:', selectedImages);
+        });
+    });
+}
+
 
 // grid containing the img tags
 
@@ -64,6 +83,8 @@ let sameEmail = document.querySelector('#same-email')
 // will display the entered email above the selection
 let linkedEmail = document.querySelector('#first-linked-email');
 
+
+//replace thjis with a completely new div each "different email" chosen
 // where the changed email selection will go 
 const changedEmail = document.querySelector('#second-linked-email');
 
@@ -89,7 +110,8 @@ for (let i of imageGrid) {
         e.target.src = `https://picsum.photos/id/${randomImageNumber}/200`;
 
         selectedImages.push(choice);
-        imageDisplay.innerHTML += `<img src="${choice}">`;
+        imageDisplay.innerHTML += `<img src="${choice}" class="selected_image">`;
+        addEvent();
 
         console.log(choice);
     })
