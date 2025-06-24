@@ -164,12 +164,31 @@ completeSelect.addEventListener('click', () => {
                 alert("Please select at least ONE image");
                 return;
             } else {
-                changedEmail.innerHTML += `<div class="newEmail"><p>These images are linked to ${email}</p><button id="send-email">Send</button></div>
-                                            <div class="DiffEmailImg"></div>`;
-                let newEmailImg = document.querySelector('.DiffEmailImg');
+                // Find the container for all different emails
+                const container = document.getElementById('different-emails-container');
+                // Create a wrapper for this new email group
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'email-group';
+
+                // Use the same structure and class names as the first group
+                groupDiv.innerHTML = `
+                    <div class="newEmail">
+                        <p>These images are linked to ${email}</p>
+                        <button class="send-email">Send</button>
+                    </div>
+                    <div class="overall-choice"></div>
+                `;
+
+                // Add images to this group's image div (with same class as first group)
+                const newEmailImg = groupDiv.querySelector('.overall-choice');
                 selectedImages.forEach(src => {
-                    newEmailImg.innerHTML += `<img src="${src}">`;
+                    const img = document.createElement('img');
+                    img.src = src;
+                    newEmailImg.appendChild(img);
                 });
+
+                // Append this group to the container
+                container.appendChild(groupDiv);
 
                 imageDisplay.innerHTML = ``;
                 selectedImages = [];
@@ -188,15 +207,20 @@ overallChoice.addEventListener('click', (e) => {
     }
 });
 
-// // Remove image from second email image group
-// changedEmailContent.addEventListener('click', (e) => {
-//     if (e.target.tagName === 'IMG') {
-//         e.target.remove();
-//         if (changedEmailContent.innerHTML === ``) {
-//             changedEmail.innerHTML = ``;
-//         }
-//     }
-// });
+
+// Remove image from any dynamically created email group
+document.getElementById('different-emails-container').addEventListener('click', (e) => {
+    if (e.target.tagName === 'IMG') {
+        const img = e.target;
+        const groupDiv = img.closest('.email-group');
+        img.remove();
+        // If no images left in this group, optionally remove the group or update UI
+        const imgContainer = groupDiv.querySelector('.DiffEmailImg');
+        if (imgContainer && imgContainer.children.length === 0) {
+            groupDiv.querySelector('.newEmail').innerHTML += '<p>No images left.</p>';
+        }
+    }
+});
 
 
 /* ---------------------------------------------------------
