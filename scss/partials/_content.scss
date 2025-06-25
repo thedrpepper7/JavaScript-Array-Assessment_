@@ -11,6 +11,7 @@
     flex-direction: column;
     height: auto;
     z-index: 999;
+    box-shadow:1px 1px 5px black;
     & h1 {
         margin: 10px auto;
     }
@@ -33,6 +34,7 @@
         object-fit: cover;
         &:hover {
             border: 1px solid #39FF14;
+            border-radius: 4px;
         }
     }
 }
@@ -50,9 +52,6 @@
     & button {
         padding: 5px;
         flex-basis: 100%;
-        &:hover {
-            color:green;
-        }
     }
 }
 
@@ -76,15 +75,23 @@
 
 // grid showing the user what they picked 
 
-#overall-choice, #changed-email-overall {
+#overall-choice, .overall-choice, #changed-email-overall {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr ;
     & img {
         width: 150px;
-        padding-bottom: 5px;
+        height: auto;
+        margin-bottom: 10px;
+        &:hover {
+            border: 1px solid red;
+            border-radius: 4px ;
+        }
     }
 }
 
-img:hover {
-    border: 1px solid gold;
+
+// button 
+
+button:hover {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
 }

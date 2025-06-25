@@ -18,12 +18,12 @@ function randomImage() {
     for (let i of imageGrid) {
         let img = i.querySelector('img');
         if (img) {
-            let link = `https://picsum.photos/id/${randomNumber()}/200`;
+            let link = `https://picsum.photos/id/${randomNumber()}/200/200`;
             img.src = link;
 
             img.onerror = function () {
                 this.onerror = null;
-                this.src = `https://picsum.photos/id/${randomNumber()}/200`;
+                this.src = `https://picsum.photos/id/${randomNumber()}/200/200`;
             };
         }
     }
@@ -85,18 +85,13 @@ let overallChoice = document.querySelector('#overall-choice');
 for (let i of imageGrid) {
     i.addEventListener('click', (e) => {
         let choice = e.target.src;
-        let randomImageNumber = randomNumber();
 
-        e.target.onerror = () => {
-            e.target.src = `https://picsum.photos/id/${randomNumber()}/200`;
+        // Prevent duplicate selections for the same email
+        if (!selectedImages.includes(choice)) {
+            selectedImages.push(choice);
+            imageDisplay.innerHTML += `<img src="${choice}" class="selected_image">`;
+            addEvent();
         }
-
-        e.target.src = `https://picsum.photos/id/${randomImageNumber}/200`;
-        selectedImages.push(choice);
-        imageDisplay.innerHTML += `<img src="${choice}" class="selected_image">`;
-        addEvent();
-
-        console.log(choice);
     });
 }
 
@@ -120,7 +115,7 @@ completeSelect.addEventListener('click', () => {
 
     if (!isValid) {
         enteredEmail.className = `noAddress`;
-        enteredEmail.value = ``;
+        // enteredEmail.value = ``;
         enteredEmail.placeholder = `Invalid Email Address*`;
     } else {
         completeSelect.style.display = `none`;
@@ -145,8 +140,13 @@ completeSelect.addEventListener('click', () => {
                 return;
             }
 
+            // Get all current image srcs in overallChoice
+            const currentImgs = Array.from(overallChoice.querySelectorAll('img')).map(img => img.src);
+
             selectedImages.forEach(src => {
-                overallChoice.innerHTML += `<img src="${src}">`;
+                if (!currentImgs.includes(src)) {
+                    overallChoice.innerHTML += `<img src="${src}">`;
+                }
             });
 
             imageDisplay.innerHTML = ``;
@@ -164,13 +164,10 @@ completeSelect.addEventListener('click', () => {
                 alert("Please select at least ONE image");
                 return;
             } else {
-                // Find the container for all different emails
                 const container = document.getElementById('different-emails-container');
-                // Create a wrapper for this new email group
                 const groupDiv = document.createElement('div');
                 groupDiv.className = 'email-group';
 
-                // Use the same structure and class names as the first group
                 groupDiv.innerHTML = `
                     <div class="newEmail">
                         <p>These images are linked to ${email}</p>
@@ -214,7 +211,7 @@ document.getElementById('different-emails-container').addEventListener('click', 
         const img = e.target;
         const groupDiv = img.closest('.email-group');
         img.remove();
-        // If no images left in this group, optionally remove the group or update UI
+        // If no images left in this group 
         const imgContainer = groupDiv.querySelector('.DiffEmailImg');
         if (imgContainer && imgContainer.children.length === 0) {
             groupDiv.querySelector('.newEmail').innerHTML += '<p>No images left.</p>';
@@ -228,3 +225,9 @@ document.getElementById('different-emails-container').addEventListener('click', 
 ----------------------------------------------------------*/
 
 randomImage();
+
+if (refresh) {
+    refresh.addEventListener('click', () => {
+        randomImage();
+    });
+}
