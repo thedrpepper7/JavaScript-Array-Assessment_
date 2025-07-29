@@ -1,42 +1,3 @@
-/* ---------------------------------------------------------
-1. Functions
-----------------------------------------------------------*/
-
-function showHidden(whichElement) {
-  whichElement.classList.add("visible");
-}
-
-function hide(whichElement) {
-  whichElement.classList.remove("visible");
-}
-
-// Check if an email address is valid
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-// Get a random number (1–1000) for image generation
-function randomNumber() {
-  return Math.floor(Math.random() * 1000) + 1;
-}
-
-// Loop through grid and assign random image
-function randomImage() {
-  for (let i of imageGrid) {
-    let img = i.querySelector("img");
-    if (img) {
-      let link = `https://picsum.photos/id/${randomNumber()}/200/200`;
-      img.src = link;
-
-      img.onerror = function () {
-        this.onerror = null;
-        this.src = `https://picsum.photos/id/${randomNumber()}/200/200`;
-      };
-    }
-  }
-}
-
 // Attach click-to-remove behavior on selected images
 function addEvent() {
   let allAddedImg = document.querySelectorAll(".selected_image");
@@ -50,34 +11,8 @@ function addEvent() {
   });
 }
 
-// Check if entered email is valid and clean up UI
-function emailChecker(GivenEmail) {
-  let value = GivenEmail.value.trim();
-  if (value === "" || !isValidEmail(GivenEmail.value)) {
-    GivenEmail.className = "noAddress";
-    showHidden(invalidSpan);
-    return false;
-  } else {
-    email = GivenEmail.value;
-    enteredEmail.classList.remove("noAddress");
-    hide(invalidSpan);
-    enteredEmail.placeholder = `Email Address`;
-    enteredEmail.value = ``;
-    return true;
-  }
-}
-
-/* ---------------------------------------------------------
-2. Variables
-----------------------------------------------------------*/
-
-let previousEmails = [];
-let invalidSpan = document.querySelector(".invalidFirst");
-
 let email = "";
-let selectedImages = [];
 
-let imageGrid = document.querySelectorAll(".image");
 let imageDisplay = document.querySelector("#image-display");
 let refresh = document.querySelector("#refresh");
 let enteredEmail = document.querySelector("#email-for-image");

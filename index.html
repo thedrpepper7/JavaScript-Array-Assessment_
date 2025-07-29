@@ -44,25 +44,17 @@
         </div>
         <div id="image-display"></div>
 
-        <span class="invalidFirst">Invalid Email Address</span>
-        <input id="email-for-image" type="email" placeholder="Email Address" />
+        <span id="invalidFirstEmail">Invalid Email Address</span>
+        <input id="emailInput" type="email" placeholder="Email Address" />
 
         <div id="buttons">
           <button id="submit-choice">Complete Selection</button>
-          <button id="same-email">Same Email</button>
+          <select name="emails" id="emailDropdown"></select>
         </div>
       </div>
-      <div id="ImageOutputColumn">
-        <div id="first-linked-email"></div>
-        <div id="overall-choice"></div>
-
-        <div id="email-wrapper"></div>
-        <div id="second-linked-email"></div>
-        <div id="changed-email-overall"></div>
-        <div id="different-emails-container"></div>
-      </div>
+      <div id="ImageOutputColumn"></div>
     </div>
 
-    <script src="js/buttons.js"></script>
+    <script src="js/imageSelector.js"></script>
   </body>
 </html>
