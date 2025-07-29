@@ -1,45 +1,42 @@
 * {
-box-sizing: border-box;
-font-family: 'Poppins', sans-serif;
-
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
-
 
 body {
-    display: flex;
-    min-height: 100vh;
-    background-color: #F9F9F9;
-    padding: 0;
-    margin: 0;
-    flex-wrap: wrap;
+  display: flex;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
 }
-
 
 @media (max-width: 556px) {
-    #imageholders {
-        grid-template-columns: 1fr 1fr;
+  #imageholders {
+    grid-template-columns: 1fr 1fr;
+  }
+  .refresh-div {
+    position: relative;
+    align-items: flex-end;
+    & button {
+      position: absolute;
+      right: 0;
+      bottom: 0;
     }
-    .refresh-div {
-        position: relative;
-        align-items: flex-end;
-        & button {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-        }
-    }
+  }
 
-    #image-display {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
+  #image-display {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
 
-@media (max-width: 360px){
-    #imageholders {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 360px) {
+  #imageholders {
+    grid-template-columns: 1fr;
+  }
 
-    #image-display {
-        grid-template-columns: 1fr 1fr;
-    }
+  #image-display {
+    grid-template-columns: 1fr 1fr;
+  }
 }
