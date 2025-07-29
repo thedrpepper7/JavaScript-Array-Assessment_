@@ -7,57 +7,60 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="contentwrap">
-      <h1>Save An Image!</h1>
-      <div id="imageholders">
-        <div class="image">
-          <img alt="Random Image" />
+    <div id="contentwrapper">
+      <div id="SelectingColumn">
+        <h1>Save An Image!</h1>
+        <div id="imageholders">
+          <div class="image">
+            <img alt="Random Image" />
+          </div>
+          <div class="image">
+            <img alt="Random Image" />
+          </div>
+          <div class="image">
+            <img alt="Random Image" />
+          </div>
+          <div class="image">
+            <img alt="Random Image" />
+          </div>
+          <div class="image">
+            <img alt="Random Image" />
+          </div>
+          <div class="image">
+            <img alt="Random Image" />
+          </div>
+          <div class="image">
+            <img alt="Random Image" />
+          </div>
+          <div class="image">
+            <img alt="Random Image" />
+          </div>
+          <div class="image">
+            <img alt="Random Image" />
+          </div>
+          <div class="refresh-div">
+            <button id="refresh">Refresh</button>
+          </div>
         </div>
-        <div class="image">
-          <img alt="Random Image" />
-        </div>
-        <div class="image">
-          <img alt="Random Image" />
-        </div>
-        <div class="image">
-          <img alt="Random Image" />
-        </div>
-        <div class="image">
-          <img alt="Random Image" />
-        </div>
-        <div class="image">
-          <img alt="Random Image" />
-        </div>
-        <div class="image">
-          <img alt="Random Image" />
-        </div>
-        <div class="image">
-          <img alt="Random Image" />
-        </div>
-        <div class="image">
-          <img alt="Random Image" />
-        </div>
-        <div class="refresh-div">
-          <button id="refresh">Refresh</button>
+        <div id="image-display"></div>
+
+        <span class="invalidFirst">Invalid Email Address</span>
+        <input id="email-for-image" type="email" placeholder="Email Address" />
+
+        <div id="buttons">
+          <button id="submit-choice">Complete Selection</button>
+          <button id="same-email">Same Email</button>
         </div>
       </div>
-      <div id="image-display"></div>
+      <div id="ImageOutputColumn">
+        <div id="first-linked-email"></div>
+        <div id="overall-choice"></div>
 
-      <span class="invalidFirst">INVALID EMAIL ADDRESS</span>
-      <input id="email-for-image" type="email" placeholder="Email Address" />
-
-      <div id="buttons">
-        <button id="submit-choice">Complete Selection</button>
-        <button id="same-email">Same Email</button>
+        <div id="email-wrapper"></div>
+        <div id="second-linked-email"></div>
+        <div id="changed-email-overall"></div>
+        <div id="different-emails-container"></div>
       </div>
-
-      <div id="first-linked-email"></div>
-      <div id="overall-choice"></div>
-
-      <div id="email-wrapper"></div>
-      <div id="second-linked-email"></div>
-      <div id="changed-email-overall"></div>
-      <div id="different-emails-container"></div>
     </div>
 
     <script src="js/buttons.js"></script>

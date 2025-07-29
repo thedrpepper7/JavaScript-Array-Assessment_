@@ -2,6 +2,14 @@
 1. Functions
 ----------------------------------------------------------*/
 
+function showHidden(whichElement) {
+  whichElement.classList.add("visible");
+}
+
+function hide(whichElement) {
+  whichElement.classList.remove("visible");
+}
+
 // Check if an email address is valid
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -47,11 +55,12 @@ function emailChecker(GivenEmail) {
   let value = GivenEmail.value.trim();
   if (value === "" || !isValidEmail(GivenEmail.value)) {
     GivenEmail.className = "noAddress";
-    GivenEmail.placeholder = `Required Email Address*`;
+    showHidden(invalidSpan);
     return false;
   } else {
     email = GivenEmail.value;
     enteredEmail.classList.remove("noAddress");
+    hide(invalidSpan);
     enteredEmail.placeholder = `Email Address`;
     enteredEmail.value = ``;
     return true;
@@ -63,6 +72,7 @@ function emailChecker(GivenEmail) {
 ----------------------------------------------------------*/
 
 let previousEmails = [];
+let invalidSpan = document.querySelector(".invalidFirst");
 
 let email = "";
 let selectedImages = [];
@@ -114,8 +124,6 @@ completeSelect.addEventListener("click", () => {
 
   if (!isValid) {
     enteredEmail.className = `noAddress`;
-    // enteredEmail.value = ``;
-    enteredEmail.placeholder = `Invalid Email Address*`;
   } else {
     completeSelect.style.display = `none`;
 
@@ -160,7 +168,6 @@ completeSelect.addEventListener("click", () => {
       if (!isValid) {
         enteredEmail.className = `noAddress`;
         enteredEmail.value = ``;
-        enteredEmail.placeholder = `Invalid Email Address`;
       } else if (selectedImages.length === 0) {
         alert("Please select at least ONE image");
         return;
