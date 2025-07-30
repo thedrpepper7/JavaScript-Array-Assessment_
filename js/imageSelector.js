@@ -51,14 +51,25 @@ function randomImage() {
   }
 }
 
-function SkeletonImg(email, link) {
+// will take the images from function below (addskeletonimg) and create divs for each
+
+function SkeletonImg(email, images) {
   let skeleton = `
     <div class="SelectedImagesBlock">
         <p>These images were assigned to ${email}</p>
-        <img src="${link}">
+        ${images}
         <button>Send</button>
     </div>`;
   return skeleton;
+}
+
+// will loop through the array adding the img to images to be returned to function above ^ (skeletonimg)
+function addSkeletonImg(array) {
+  let images = ``;
+  for (let i = 0; i < array.length; i++) {
+    images += `<img src="${array[i]}">`;
+  }
+  return images;
 }
 
 // variables in order of appearance on the page
@@ -76,24 +87,46 @@ let emailInputBox = document.querySelector("#emailInput");
 let completeChoice = document.querySelector("#submit-choice");
 let emailDropdown = document.querySelector("#emailDropdown");
 
-// button logic and validtaions
+let imageOutputColumn = document.querySelector("#ImageOutputColumn");
+
+// adding the images
 
 imageHolder.addEventListener("click", (e) => {
   let src = e.target.src;
+
   if (e.target.tagName === "IMG" && !selectedImages.includes(src)) {
     selectedImages.push(src);
     imageChoiceDisplay.innerHTML += `<img src="${src}" class="imageRemover">`;
   }
 });
 
-completeChoice.addEventListener("click", () => {
-  let isTrue = emailChecker(emailInputBox);
-  if (isTrue) {
-    console.log("huzzah!");
-  } else {
-    console.log("uhoh");
+// being able to remove the images
+
+imageChoiceDisplay.addEventListener("click", (e) => {
+  if (e.target.classList.contains("imageRemover")) {
+    const imgsrc = e.target.src;
+    e.target.remove();
+    selectedImages = selectedImages.filter((item) => item !== imgsrc);
   }
 });
+
+// form submission on valid email entry
+
+completeChoice.addEventListener("click", () => {
+  let isTrue = emailChecker(emailInputBox);
+  if (isTrue && selectedImages.length > 0) {
+    showHidden(imageOutputColumn);
+    imageOutputColumn.innerHTML += SkeletonImg(
+      email,
+      addSkeletonImg(selectedImages)
+    );
+    console.log(ImgHTML);
+  } else {
+    alert("Make sure you enter a valid email and choose at least ONE image");
+    console.log("invalid");
+  }
+});
+
 // run once on page load
 
 randomImage();

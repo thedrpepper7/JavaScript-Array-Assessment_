@@ -23,34 +23,6 @@ let changedEmail = document.querySelector("#email-wrapper");
 let overallChoice = document.querySelector("#overall-choice");
 
 /* ---------------------------------------------------------
-3. Image Selection & Click Handling
-----------------------------------------------------------*/
-
-// Click image to select it
-for (let i of imageGrid) {
-  i.addEventListener("click", (e) => {
-    let choice = e.target.src;
-
-    // Prevent duplicate selections for the same email
-    if (!selectedImages.includes(choice)) {
-      selectedImages.push(choice);
-      imageDisplay.innerHTML += `<img src="${choice}" class="selected_image">`;
-      addEvent();
-    }
-  });
-}
-
-// Click on image in selected section to remove
-imageDisplay.addEventListener("click", (e) => {
-  if (e.target.classList.contains("selected_image")) {
-    const srcToRemove = e.target.src;
-    e.target.remove();
-    selectedImages = selectedImages.filter((src) => src !== srcToRemove);
-    console.log("Updated selectedImages:", selectedImages);
-  }
-});
-
-/* ---------------------------------------------------------
 4. Email
 ----------------------------------------------------------*/
 

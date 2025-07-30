@@ -5,13 +5,14 @@
   display: flex;
   & div {
     max-width: 500px;
-    justify-content: space-between;
   }
 }
 
 #SelectingColumn,
 #ImageOutputColumn {
   margin: auto auto;
+  max-height: 900px;
+  width: 500px;
   padding: 20px;
   border: black 1px solid;
   background-color: #eaeaea;
@@ -22,8 +23,13 @@
 
 #ImageOutputColumn {
   display: none;
+  overflow-y: auto;
+  & button {
+    width: 100%;
+  }
   &.visible {
     display: flex;
+    flex-direction: column;
   }
 }
 

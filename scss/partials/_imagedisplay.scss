@@ -1,14 +1,15 @@
 #image-display {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    margin-bottom: 5px;
-    & img {
-        width: 100px;
-        height: auto;
-        display: block;
-        &:hover {
-            border: 1px solid #FF073A;
-            border-radius: 4px;
-        }
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 5px;
+  max-width: 100%;
+  & img {
+    width: 75px;
+    height: auto;
+    display: block;
+    &:hover {
+      border: 1px solid #ff073a;
+      border-radius: 4px;
     }
+  }
 }
