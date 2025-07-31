@@ -186,6 +186,13 @@ imageOutputColumn.addEventListener("click", function (e) {
   }
 });
 
+// dropdown box allowing a previous email to be clicked instead of retyped
+
+emailDropdown.addEventListener("change", (event) => {
+  selectedValue = event.target.value;
+  emailInputBox.value = selectedValue;
+});
+
 // run once on page load
 
 randomImage();
