@@ -55,7 +55,7 @@ function randomImage() {
 
 function SkeletonImg(email, images) {
   let skeleton = `
-    <div class="SelectedImagesBlock">
+    <div class="SelectedImagesBlock ${email}">
         <p>These images were assigned to ${email}</p>
         ${images}
         <button>Send</button>
@@ -70,6 +70,11 @@ function addSkeletonImg(array) {
     images += `<img src="${array[i]}">`;
   }
   return images;
+}
+
+// this adds previously entered emails to a dropdown box
+function addEmailDropdown(email) {
+  emailDropdown.innerHTML += `<option value="${email}">${email}</option>`;
 }
 
 // variables in order of appearance on the page
@@ -115,16 +120,19 @@ imageChoiceDisplay.addEventListener("click", (e) => {
 completeChoice.addEventListener("click", () => {
   let isTrue = emailChecker(emailInputBox);
   if (isTrue && selectedImages.length > 0) {
+    previousEmails.push(email);
+    addEmailDropdown(email);
     showHidden(imageOutputColumn);
+    showHidden(emailDropdown);
     imageOutputColumn.innerHTML += SkeletonImg(
       email,
       addSkeletonImg(selectedImages)
     );
-    console.log(ImgHTML);
   } else {
     alert("Make sure you enter a valid email and choose at least ONE image");
-    console.log("invalid");
   }
+
+  console.log(previousEmails);
 });
 
 // run once on page load
