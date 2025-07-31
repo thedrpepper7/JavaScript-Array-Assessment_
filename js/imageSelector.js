@@ -55,11 +55,13 @@ function randomImage() {
 
 function SkeletonImg(email, images) {
   let skeleton = `
-    <div class="SelectedImagesBlock ${email}">
-        <p>These images were assigned to ${email}</p>
+    <div class="SelectedImagesBlock ${sanitizeEmail(email)}">
+        <p>These images were assigned to ${email}</p> <button class="deleteSelection" data-target="${sanitizeEmail(
+    email
+  )}">DELETE</button>
         ${images}
-        <button>Send</button>
-    </div>`;
+    </div>
+    <button class="${sanitizeEmail(email)}">Send</button>`;
   return skeleton;
 }
 
@@ -70,6 +72,11 @@ function addSkeletonImg(array) {
     images += `<img src="${array[i]}">`;
   }
   return images;
+}
+
+// gives back an email that can be class selected
+function sanitizeEmail(email) {
+  return email.replace(/[^a-zA-Z0-9_-]/g, "_");
 }
 
 // this adds previously entered emails to a dropdown box
@@ -84,6 +91,7 @@ let previousEmails = [];
 
 let imageHolder = document.querySelector("#imageholders");
 let imageGrid = document.querySelectorAll(".image");
+let refresh = document.querySelector("#refresh");
 
 let imageChoiceDisplay = document.querySelector("#image-display");
 let invalidSpan = document.querySelector("#invalidFirstEmail");
@@ -118,23 +126,70 @@ imageChoiceDisplay.addEventListener("click", (e) => {
 // form submission on valid email entry
 
 completeChoice.addEventListener("click", () => {
-  let isTrue = emailChecker(emailInputBox);
-  if (isTrue && selectedImages.length > 0) {
-    previousEmails.push(email);
-    addEmailDropdown(email);
-    showHidden(imageOutputColumn);
-    showHidden(emailDropdown);
-    imageOutputColumn.innerHTML += SkeletonImg(
-      email,
-      addSkeletonImg(selectedImages)
-    );
+  let email = emailChecker(emailInputBox);
+  if (email && selectedImages.length > 0) {
+    const safeClass = sanitizeEmail(email);
+
+    if (previousEmails.includes(email)) {
+      let reuseEmail = document.querySelector(`.${safeClass}`);
+      if (reuseEmail) {
+        selectedImages.forEach((imgSrc) => {
+          if (!reuseEmail.querySelector(`img[src="${imgSrc}"]`)) {
+            reuseEmail.insertAdjacentHTML("beforeend", `<img src="${imgSrc}">`);
+          } else {
+            alert("You can't have two of the same image");
+          }
+        });
+      }
+    } else {
+      addEmailDropdown(email);
+      showHidden(imageOutputColumn);
+      showHidden(emailDropdown);
+      imageOutputColumn.innerHTML += SkeletonImg(
+        email,
+        addSkeletonImg(selectedImages)
+      );
+      previousEmails.push(email);
+    }
+
+    // Reset image selection
+    selectedImages = [];
+    imageChoiceDisplay.innerHTML = "";
   } else {
     alert("Make sure you enter a valid email and choose at least ONE image");
   }
+});
 
-  console.log(previousEmails);
+// delete the block of images on output
+
+imageOutputColumn.addEventListener("click", function (e) {
+  if (e.target.classList.contains("deleteSelection")) {
+    const targetClass = e.target.dataset.target;
+
+    const block = document.querySelector(`.SelectedImagesBlock.${targetClass}`);
+    if (block) {
+      block.remove();
+    }
+
+    const sendBtn = document.querySelector(`button.${targetClass}`);
+    if (sendBtn) {
+      sendBtn.remove();
+    }
+
+    previousEmails = previousEmails.filter(
+      (email) => sanitizeEmail(email) !== targetClass
+    );
+
+    if (imageOutputColumn.children.length === 0) {
+      hide(imageOutputColumn);
+    }
+  }
 });
 
 // run once on page load
 
 randomImage();
+
+refresh.addEventListener("click", () => {
+  randomImage();
+});

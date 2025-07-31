@@ -3,6 +3,9 @@
 #contentwrapper {
   width: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
   & div {
     max-width: 500px;
   }
@@ -10,8 +13,8 @@
 
 #SelectingColumn,
 #ImageOutputColumn {
-  margin: auto auto;
-  max-height: 900px;
+  height: 800px;
+  overflow-y: auto;
   width: 500px;
   padding: 20px;
   border: black 1px solid;
@@ -23,7 +26,6 @@
 
 #ImageOutputColumn {
   display: none;
-  overflow-y: auto;
   & button {
     width: 100%;
   }
