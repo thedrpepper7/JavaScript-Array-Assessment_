@@ -13,9 +13,10 @@
 
 #SelectingColumn,
 #ImageOutputColumn {
-  height: 800px;
+  height: 80vh;
   overflow-y: auto;
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   padding: 20px;
   border: black 1px solid;
   background-color: #eaeaea;
@@ -131,4 +132,18 @@
 
 button:hover {
   background: linear-gradient(to right, #6a11cb, #2575fc);
+}
+
+@media (max-width: 768px) {
+  #contentwrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #ImageOutputColumn {
+    & img {
+      width: 100px;
+      height: 100px;
+    }
+  }
 }
